@@ -394,4 +394,4 @@ This project is available for personal and educational use. Built with:
 
 Clone this repo, follow the setup steps, and in 10 minutes you'll have your own AI avatar chat application running locally. It's that simple!
 
-Built with ❤️ using Flask, OpenAI, and some really cool lip-sync technology.
+> ⚠️ This is just a side quest. I have tons of these in my system, happy to share more if you're interested just hit me up.
