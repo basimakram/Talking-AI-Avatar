@@ -8,10 +8,8 @@ Think of it as having a video call with AI characters who have distinct personal
 
 ### Main Landing Page - Choose Your Avatar
 ![Main Landing Page](static/screenshots/main-landing-1.png)
-*Choose from 9 unique avatars, each with their own personality and voice*
-
 ![Main Landing Page](static/screenshots/main-landing-2.png)
-*CYou can switch personalities and voices as you like*
+*Choose from 9 unique avatars, each with their own personality and voice*
 
 ![Avatar Selection](static/screenshots/main-landing-3.png)
 *Hover over avatars to see their details and personality descriptions. Click to get a draggable menu*
