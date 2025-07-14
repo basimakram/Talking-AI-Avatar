@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Choose Your AI Avatar</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      background: 
+        radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.1) 0%, transparent 50%),
+        linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0f0f0f 100%);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Enhanced animated background */
+    .bg-animation {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .particle {
+      position: absolute;
+      border-radius: 50%;
+      animation: float 6s ease-in-out infinite;
+    }
+
+    .particle:nth-child(odd) {
+      width: 4px;
+      height: 4px;
+      background: rgba(120, 119, 198, 0.3);
+    }
+
+    .particle:nth-child(even) {
+      width: 2px;
+      height: 2px;
+      background: rgba(255, 119, 198, 0.4);
+    }
+
+    .particle:nth-child(3n) {
+      width: 6px;
+      height: 6px;
+      background: rgba(120, 219, 255, 0.2);
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.3; }
+      50% { transform: translateY(-30px) rotate(180deg); opacity: 0.6; }
+    }
+
+    /* Geometric shapes for more visual interest */
+    .bg-shapes {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .shape {
+      position: absolute;
+      opacity: 0.1;
+      animation: rotate 20s linear infinite;
+    }
+
+    .shape:nth-child(1) {
+      top: 10%;
+      left: 10%;
+      width: 100px;
+      height: 100px;
+      background: linear-gradient(45deg, transparent, rgba(120, 119, 198, 0.1));
+      transform-origin: center;
+    }
+
+    .shape:nth-child(2) {
+      top: 60%;
+      right: 10%;
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(45deg, transparent, rgba(255, 119, 198, 0.1));
+      border-radius: 50%;
+      animation-direction: reverse;
+    }
+
+    .shape:nth-child(3) {
+      bottom: 20%;
+      left: 20%;
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(45deg, transparent, rgba(120, 219, 255, 0.1));
+      clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+    }
+
+    @keyframes rotate {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .container {
+      position: relative;
+      z-index: 2;
+      padding: 60px 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 60px;
+      animation: slideDown 0.8s ease-out;
+    }
+
+    .title {
+      font-size: 3.5rem;
+      font-weight: 700;
+      background: linear-gradient(45deg, #fff, #e0e7ff, #fbbf24);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 16px;
+      text-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    }
+
+    .subtitle {
+      font-size: 1.2rem;
+      color: rgba(255, 255, 255, 0.7);
+      font-weight: 300;
+    }
+
+    .avatars-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+      margin-top: 40px;
+    }
+
+    .avatar-card {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      padding: 30px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+      animation: fadeInUp 0.6s ease-out;
+      animation-fill-mode: both;
+    }
+
+    .avatar-card:nth-child(1) { animation-delay: 0.1s; }
+    .avatar-card:nth-child(2) { animation-delay: 0.2s; }
+    .avatar-card:nth-child(3) { animation-delay: 0.3s; }
+    .avatar-card:nth-child(4) { animation-delay: 0.4s; }
+    .avatar-card:nth-child(5) { animation-delay: 0.5s; }
+    .avatar-card:nth-child(6) { animation-delay: 0.6s; }
+    .avatar-card:nth-child(7) { animation-delay: 0.7s; }
+
+    .avatar-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+      transition: left 0.6s;
+    }
+
+    .avatar-card:hover::before {
+      left: 100%;
+    }
+
+    .avatar-card:hover {
+      transform: translateY(-10px) scale(1.02);
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.3);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    }
+
+    .avatar-card:active {
+      transform: translateY(-5px) scale(0.98);
+    }
+
+    .avatar-image-container {
+      position: relative;
+      margin-bottom: 24px;
+      border-radius: 16px;
+      overflow: hidden;
+      background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
+    }
+
+    .avatar-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: contain;
+      border-radius: 16px;
+      transition: transform 0.4s ease;
+      filter: brightness(0.9) contrast(1.1);
+    }
+
+    .avatar-card:hover img {
+      transform: scale(1.1);
+      filter: brightness(1) contrast(1.2);
+    }
+
+    .avatar-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 8px;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    }
+
+    .avatar-desc {
+      font-size: 1rem;
+      color: rgba(255, 255, 255, 0.7);
+      line-height: 1.5;
+      font-weight: 300;
+    }
+
+    .selected-indicator {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      width: 24px;
+      height: 24px;
+      background: #4ade80;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transform: scale(0);
+      transition: all 0.3s ease;
+    }
+
+    .selected-indicator::after {
+      content: '✓';
+      color: white;
+      font-size: 12px;
+      font-weight: bold;
+    }
+
+    .avatar-card.selected .selected-indicator {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .avatar-card.selected {
+      background: rgba(74, 222, 128, 0.1);
+      border-color: #4ade80;
+    }
+
+    /* Draggable action popup */
+    .action-popup {
+      position: fixed;
+      top: 50%;
+      right: 30px;
+      transform: translateY(-50%) translateX(100px);
+      width: 320px;
+      background: rgba(10, 10, 10, 0.95);
+      backdrop-filter: blur(30px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 20px;
+      padding: 30px;
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+      user-select: none;
+      cursor: grab;
+    }
+
+    .action-popup:active {
+      cursor: grabbing;
+    }
+
+    .action-popup.active {
+      transform: translateY(-50%) translateX(0);
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .action-popup.dragging {
+      transition: none;
+      cursor: grabbing;
+    }
+
+    .popup-avatar-info {
+      text-align: center;
+      margin-bottom: 25px;
+      pointer-events: none;
+    }
+
+    .popup-avatar-name {
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 12px;
+      background: linear-gradient(45deg, #fff, #e0e7ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .popup-avatar-personality {
+      font-size: 0.95rem;
+      color: rgba(255, 255, 255, 0.8);
+      line-height: 1.5;
+    }
+
+    .action-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .action-btn {
+      padding: 16px 20px;
+      border: none;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      position: relative;
+    }
+
+    .call-btn {
+      background: linear-gradient(135deg, #4ade80, #22c55e);
+      color: white;
+    }
+
+    .call-btn:hover {
+      background: linear-gradient(135deg, #22c55e, #16a34a);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(74, 222, 128, 0.4);
+    }
+
+    .chat-btn {
+      background: linear-gradient(135deg, #3b82f6, #2563eb);
+      color: white;
+    }
+
+    .chat-btn:hover {
+      background: linear-gradient(135deg, #2563eb, #1d4ed8);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
+    }
+
+    .close-popup {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: none;
+      border: none;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 20px;
+      cursor: pointer;
+      transition: color 0.3s ease;
+      z-index: 10;
+    }
+
+    .close-popup:hover {
+      color: rgba(255, 255, 255, 0.9);
+    }
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-50px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .title {
+        font-size: 2.5rem;
+      }
+      
+      .avatars-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+      
+      .container {
+        padding: 40px 15px;
+      }
+
+      .action-popup {
+        right: 15px;
+        left: 15px;
+        width: auto;
+        top: auto;
+        bottom: 30px;
+        transform: translateY(100px);
+      }
+
+      .action-popup.active {
+        transform: translateY(0);
+      }
+
+      .action-buttons {
+        flex-direction: row;
+      }
+    }
+
+    /* Loading animation for images */
+    .avatar-card img {
+      opacity: 0;
+      animation: imageLoad 0.5s ease-out 0.3s forwards;
+    }
+
+    @keyframes imageLoad {
+      to {
+        opacity: 1;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-animation" id="bgAnimation"></div>
+  <div class="bg-shapes">
+    <div class="shape"></div>
+    <div class="shape"></div>
+    <div class="shape"></div>
+  </div>
+  
+  <div class="container">
+    <div class="header">
+      <h1 class="title">Choose Your AI Avatar</h1>
+      <p class="subtitle">Select the personality that suits you best</p>
+    </div>
+
+    <div class="avatars-grid" id="avatarsContainer">
+      <!-- Cards will be inserted here by JS -->
+    </div>
+  </div>
+
+  <!-- Action popup -->
+  <div class="action-popup" id="actionPopup">
+    <button class="close-popup" onclick="hideActionPopup()">×</button>
+    <div class="popup-avatar-info">
+      <div class="popup-avatar-name" id="popupAvatarName"></div>
+      <div class="popup-avatar-personality" id="popupAvatarPersonality"></div>
+    </div>
+    <div class="action-buttons">
+      <a href="#" class="action-btn call-btn" id="callBtn">
+        📞 Start Call
+      </a>
+      <a href="#" class="action-btn chat-btn" id="chatBtn">
+        💬 Start Chat
+      </a>
+    </div>
+  </div>
+
+  <script>
+    const avatars = [
+      {
+        file: 'avatar1.glb',
+        name: 'Adam Sterling',
+        desc: 'Confident, concise, and solution-oriented. Speaks directly, with no patience for fluff.'
+      },
+      {
+        file: 'avatar2.glb',
+        name: 'Layla Rogers',
+        desc: 'Calm, spiritual, and philosophical. Reflects deeply and speaks with poetic wisdom.'
+      },
+      {
+        file: 'avatar3.glb',
+        name: 'Sarah Elwood',
+        desc: 'Kind, emotionally intelligent, and warm. Compassionate, but sharper than she seems.'
+      },
+      {
+        file: 'avatar4.glb',
+        name: 'Raj Mehra',
+        desc: 'Funny, unserious, and full of jokes. Loves roasting and keeping the vibe playful.'
+      },
+      {
+        file: 'avatar5.glb',
+        name: 'Ethan Brooks',
+        desc: 'Adventurous, daring, and visionary. Pushes others to think big and take bold steps.'
+      },
+      {
+        file: 'avatar6.glb',
+        name: 'Daniel Hayes',
+        desc: 'Hyper-intelligent and emotionally sharp. Engages deeply with women—blunt with men.'
+      },
+      {
+        file: 'avatar7.glb',
+        name: 'Zara Qureshi',
+        desc: 'Pop-culture obsessed, sarcastic, and self-aware. Marvel fangirl with attitude and heart.'
+      },
+      {
+        file: 'avatar8.glb',
+        name: 'Jayden Cole',
+        desc: 'Cocky, sharp-tongued, and thinks he knows it all. Loves to argue and show off.'
+      },
+      {
+        file: 'avatar9.glb',
+        name: 'Rizwan Khan',
+        desc: 'Modest, calm, and devout. Speaks gently, prefers deep, respectful conversations about Islam.'
+      }
+    ];
+
+
+    let selectedAvatar = null;
+    let currentSelectedCard = null;
+    let isDragging = false;
+    let dragOffset = { x: 0, y: 0 };
+
+    // Create enhanced background particles
+    function createParticles() {
+      const bgAnimation = document.getElementById('bgAnimation');
+      for (let i = 0; i < 60; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.top = Math.random() * 100 + '%';
+        particle.style.animationDelay = Math.random() * 6 + 's';
+        particle.style.animationDuration = (Math.random() * 4 + 4) + 's';
+        bgAnimation.appendChild(particle);
+      }
+    }
+
+    // Create avatar cards
+    function createAvatarCards() {
+      const container = document.getElementById('avatarsContainer');
+
+      avatars.forEach((avatar, index) => {
+        const card = document.createElement('div');
+        card.className = 'avatar-card';
+        card.innerHTML = `
+          <div class="selected-indicator"></div>
+          <div class="avatar-image-container">
+            <img src="/static/avatar/${avatar.file.replace('.glb', '.png')}" 
+                 alt="${avatar.name}" 
+                 onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMSkiLz4KPGNPCZ09IjEwMCIgY3k9IjEwMCIgcj0iNDAiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4zKSIvPgo8L3N2Zz4K'">
+          </div>
+          <div class="avatar-title">${avatar.name}</div>
+          <div class="avatar-desc">${avatar.desc}</div>
+        `;
+
+        card.addEventListener('click', (e) => {
+          e.stopPropagation();
+          selectAvatar(card, avatar, index);
+        });
+
+        container.appendChild(card);
+      });
+    }
+
+    function selectAvatar(cardElement, avatar, index) {
+      // If clicking the same avatar that's already selected, hide popup
+      if (currentSelectedCard === cardElement) {
+        hideActionPopup();
+        return;
+      }
+
+      // Remove selection from previous card
+      if (currentSelectedCard) {
+        currentSelectedCard.classList.remove('selected');
+      }
+
+      // Add selection to clicked card
+      cardElement.classList.add('selected');
+      currentSelectedCard = cardElement;
+      selectedAvatar = avatar;
+
+      // Update and show popup
+      updatePopupContent(avatar);
+      showActionPopup();
+    }
+
+    function updatePopupContent(avatar) {
+      const nameEl = document.getElementById('popupAvatarName');
+      const personalityEl = document.getElementById('popupAvatarPersonality');
+      const callBtn = document.getElementById('callBtn');
+      const chatBtn = document.getElementById('chatBtn');
+
+      // Set avatar info
+      nameEl.textContent = avatar.name;
+      personalityEl.textContent = avatar.desc;
+
+      // Set button links
+      const qs = new URLSearchParams({ avatar: avatar.file });
+      callBtn.href = `/call?${qs.toString()}`;
+      chatBtn.href = `/chat?${qs.toString()}`;
+    }
+
+    function showActionPopup() {
+      const popup = document.getElementById('actionPopup');
+      popup.classList.add('active');
+    }
+
+    function hideActionPopup() {
+      const popup = document.getElementById('actionPopup');
+      popup.classList.remove('active');
+      
+      // Remove selection from current card
+      if (currentSelectedCard) {
+        currentSelectedCard.classList.remove('selected');
+        currentSelectedCard = null;
+      }
+      
+      selectedAvatar = null;
+    }
+
+    // Dragging functionality
+    function initializeDragging() {
+      const popup = document.getElementById('actionPopup');
+      let startX, startY, initialX, initialY;
+
+      popup.addEventListener('mousedown', startDrag);
+      popup.addEventListener('touchstart', startDrag);
+
+      function startDrag(e) {
+        // Don't drag if clicking on buttons or close button
+        if (e.target.closest('.action-btn') || e.target.closest('.close-popup')) {
+          return;
+        }
+
+        e.preventDefault();
+        isDragging = true;
+        popup.classList.add('dragging');
+
+        const clientX = e.type === 'mousedown' ? e.clientX : e.touches[0].clientX;
+        const clientY = e.type === 'mousedown' ? e.clientY : e.touches[0].clientY;
+
+        const rect = popup.getBoundingClientRect();
+        initialX = rect.left;
+        initialY = rect.top;
+        startX = clientX - initialX;
+        startY = clientY - initialY;
+
+        document.addEventListener('mousemove', drag);
+        document.addEventListener('touchmove', drag);
+        document.addEventListener('mouseup', stopDrag);
+        document.addEventListener('touchend', stopDrag);
+      }
+
+      function drag(e) {
+        if (!isDragging) return;
+
+        e.preventDefault();
+        const clientX = e.type === 'mousemove' ? e.clientX : e.touches[0].clientX;
+        const clientY = e.type === 'mousemove' ? e.clientY : e.touches[0].clientY;
+
+        const newX = clientX - startX;
+        const newY = clientY - startY;
+
+        // Constrain to viewport
+        const rect = popup.getBoundingClientRect();
+        const maxX = window.innerWidth - rect.width;
+        const maxY = window.innerHeight - rect.height;
+
+        const constrainedX = Math.max(0, Math.min(maxX, newX));
+        const constrainedY = Math.max(0, Math.min(maxY, newY));
+
+        popup.style.left = constrainedX + 'px';
+        popup.style.top = constrainedY + 'px';
+        popup.style.right = 'auto';
+        popup.style.transform = 'none';
+      }
+
+      function stopDrag() {
+        isDragging = false;
+        popup.classList.remove('dragging');
+        document.removeEventListener('mousemove', drag);
+        document.removeEventListener('touchmove', drag);
+        document.removeEventListener('mouseup', stopDrag);
+        document.removeEventListener('touchend', stopDrag);
+      }
+    }
+
+    // Initialize everything
+    document.addEventListener('DOMContentLoaded', () => {
+      createParticles();
+      createAvatarCards();
+      initializeDragging();
+
+      // Hide popup when clicking outside
+      document.addEventListener('click', (e) => {
+        if (isDragging) return;
+        
+        const popup = document.getElementById('actionPopup');
+        const isClickInsidePopup = popup.contains(e.target);
+        const isClickOnAvatarCard = e.target.closest('.avatar-card');
+        
+        if (!isClickInsidePopup && !isClickOnAvatarCard && popup.classList.contains('active')) {
+          hideActionPopup();
+        }
+      });
+
+      // Prevent popup from closing when clicking inside it
+      document.getElementById('actionPopup').addEventListener('click', (e) => {
+        if (!isDragging) {
+          e.stopPropagation();
+        }
+      });
+    });
+  </script>
+</body>
+</html>

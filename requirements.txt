@@ -1,0 +1,10 @@
+openai
+gtts
+deepgram-sdk
+python-dotenv
+google-cloud-texttospeech
+g2p-en
+requests
+Flask
+scipy
+ffmpeg-python
