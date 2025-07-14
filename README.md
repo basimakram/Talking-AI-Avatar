@@ -69,7 +69,7 @@ Each avatar can have their own collection of pre-recorded greetings that play wh
 - About 10 minutes of your time
 
 **Nice to Have:**
-- Google Cloud, Deepgram, or Azure API keys (for even better voices)
+- Google Cloud, Deepgram, or Open API keys
 - Docker (for the best lip-sync accuracy)
 
 ### Step 1: Get the Code
