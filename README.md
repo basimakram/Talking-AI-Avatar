@@ -31,7 +31,7 @@ Think of it as having a video call with AI characters who have distinct personal
 Instead of boring text boxes, you get **9 unique avatars** with their own personalities! Want business advice? Chat with Adam Sterling. Need some laughs? Raj Mehra's your guy. Each avatar remembers your conversation and responds in their unique style.
 
 ### 🗣️ Voice That Just Works
-We've integrated **multiple TTS providers** (OpenAI, Google, Deepgram, Azure) so you'll always get crystal-clear voice synthesis. If one service is down, the app automatically switches to another - no interruptions to your conversation!
+We've integrated **multiple TTS providers** (OpenAI, Google, Deepgram) so you'll always get crystal-clear voice synthesis. Obvs you will have to get the api keys. 
 
 ### 🎤 Talk Naturally
 Just hit the microphone button and start talking! The app uses **OpenAI Whisper** for speech recognition, so it understands you clearly even with background noise or different accents.
@@ -43,7 +43,7 @@ Whether you prefer typing or talking, the interface is designed to feel natural.
 Here's the cool part - the avatars' lips move perfectly in sync with their speech! We use advanced alignment algorithms to match every word with precise mouth movements. It's like magic, but it's actually just really good engineering.
 
 ### 🎵 Personal Greetings
-Each avatar has their own collection of pre-recorded greetings that play when you start a conversation. They'll introduce themselves with their unique personality shining through from the very first word.
+Each avatar can have their own collection of pre-recorded greetings that play when you start a conversation. They'll introduce themselves with their unique personality shining through from the very first word on call. I have set a static greeting for now in two categories male and female. However, you can do one or multiple for each avatar. Update the greetings map in greetings.py. Remember you need only visemes for lipsync 
 
 ## 🎭 Meet the Avatars
 
