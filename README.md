@@ -11,18 +11,18 @@ Think of it as having a video call with AI characters who have distinct personal
 *Choose from 9 unique avatars, each with their own personality and voice*
 
 ![Main Landing Page](static/screenshots/main-landing-2.png)
-*Choose from 9 unique avatars, each with their own personality and voice*
+*CYou can switch personalities and voices as you like*
 
 ![Avatar Selection](static/screenshots/main-landing-3.png)
 *Hover over avatars to see their details and personality descriptions. Click to get a draggable menu*
 
 ### Chat Interface - Text Conversations
 ![Chat Interface](static/screenshots/chat-interface.png)
-*Clean, modern chat interface with real-time text and voice responses*
+*Clean chat interface with real-time text and voice responses*
 
 ### Voice Call Interface - Live Conversations
 ![Voice Call Interface](static/screenshots/call-interface-1.png)
-*Full-screen avatar with real-time lip-sync during voice conversations*
+*Click on start call to start the call with your AI companion*
 
 ![Voice Call Active](static/screenshots/call-interface-2.png)
 *See live transcription and perfectly synchronized lip movements*
